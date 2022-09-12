@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- image upload CSS-->
+    <link rel="stylesheet" href="style.css">
+
+    <title>Hello, world!</title>
+    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-631eaaed787599b5"></script>
+
+  </head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light nav-distance">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">인공지능 가상직업상 테스트</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link" href="#">Features</a>
+            <a class="nav-link" href="#">Pricing</a>
+            <a class="nav-link disabled">Disabled</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <section class="section">
+      <h1 class="title">재미로 보는 인공지능 가상직업 테스트</h1>
+      <h2 class="subtitle">나는 어떤 직업이 어울릴까?</h2>
+    </section>
+    <section class="youtube">
+      <div class="container youtube-cover d-flex flex-row-reverse bd-highlight">
+        <img src="" alt="" class="youtube-icon">
+        <a href="https://www.youtube.com/c/%EC%A1%B0%EC%BD%94%EB%94%A9JoCoding/featured" class="youtube-link">출처 : By 조코딩 유튜브 채널</a>
+      </div>
+    </section>
+    <h3 class="pb-2 d-flex justify-content-center">성별을 선택하세요</h3>
+    <section class="d-flex justify-content-center">
+      <p class="d-flex align-items-center pr-3">여자</p>
+      <div>
+          <input type="checkbox" id="gender">
+          <label for="gender">
+              <span class="knob">
+                  <i></i>
+              </span>
+          </label>
+      </div>
+      <p class="d-flex align-items-center pl-3">남자</p>
+    </section>
+    <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <div class="mt-3 container file-upload">
+        <div class="image-upload-wrap">
+            <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
+            <div class="drag-text">
+              <img class="mt-5 pt-5 upload-img" src="img/upload.svg" alt="업로드사진">
+              <h3 class="mb-5 pb-5 pt-4 upload-text">얼굴 사진을 올려놓거나 눌러서 업로드하세요!</h3>
+            </div>
+        </div>
+        <div class="file-upload-content">
+            <img class="file-upload-image" id='face-image' src="#" alt="your image" />
+            <div id="loading" class="animated bounce">
+              <div class="spinner-border" role="status">
+                  <span class="sr-only"></span>
+              </div>
+              <p class="text-center">AI가 당신의 가상직업을 분석중입니다.</p>
+            </div>
+          <p class="result-message"></p>
+          <div id="label-container" class="d-flex flex-column justify-content-around"></div>
+          
+          <!-- Go to www.addthis.com/dashboard to customize your tools -->
+          <div class="addthis_inline_share_toolbox"></div>
+            
+
+          <div class="pt-3 image-title-wrap">
+              <button type="button p-2" class="try-again-btn" onclick="window.location.reload();">
+                  <span class="try-again-text">다른 사진으로 재시도</span>
+              </button>
+          </div>
+        </div>
+    </div>
+    <div id="webcam-container"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    -->
+    <div id="disqus_thread"></div>
+    <script>
+        /**
+        *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+        *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+        /*
+        var disqus_config = function () {
+        this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        */
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://junfree.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('.image-upload-wrap').hide();
+                    $('#loading').show();
+                    $('.file-upload-image').attr('src', e.target.result);
+                    $('.file-upload-content').show();
+                    $('.image-title').html(input.files[0].name);
+                };
+                reader.readAsDataURL(input.files[0]);
+                init().then(()=>{ //.then은 init이 끝난 다음에 실행 > ()=> ES6문법(최신문법) 예전문법 function() 익명함수 실행
+                  predict();
+                  $('#loading').hide();
+                });
+            } else {
+                removeUpload();
+            }
+        }
+
+        function removeUpload() {
+            $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+            $('.file-upload-content').hide();
+            $('.image-upload-wrap').show();
+        }
+        $('.image-upload-wrap').bind('dragover', function() {
+            $('.image-upload-wrap').addClass('image-dropping');
+        });
+        $('.image-upload-wrap').bind('dragleave', function() {
+            $('.image-upload-wrap').removeClass('image-dropping');
+        });
+    </script>
+    <script type="text/javascript">
+        // More API functions here:
+        // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
+        // the link to your model provided by Teachable Machine export panel
+        let URL;
+        const urlMale = "https://teachablemachine.withgoogle.com/models/dr5PgqWpk/";
+        const urlFemale = "https://teachablemachine.withgoogle.com/models/C7UQAuvkg/";
+        let model, webcam, labelContainer, maxPredictions;
+        // Load the image model and setup the webcam
+        async function init() {
+            if (document.getElementById("gender").checked) {
+                URL = urlMale;
+            } else {
+                URL = urlFemale;
+            }
+            const modelURL = URL + "model.json";
+            const metadataURL = URL + "metadata.json";
+            model = await tmImage.load(modelURL, metadataURL);
+            maxPredictions = model.getTotalClasses();
+            labelContainer = document.getElementById("label-container");
+            for (let i = 0; i < maxPredictions; i++) { // and class labels
+                labelContainer.appendChild(document.createElement("div"));
+            }
+        }
+        // run the webcam image through the image model
+        async function predict() {
+            // predict can take in an image, video or canvas html element
+            var image = document.getElementById("face-image")
+            const prediction = await model.predict(image, false);
+            prediction.sort((a,b)=>parseFloat(b.probability) - parseFloat(a.probability));
+            console.log(prediction);
+            var resultTitle, resultExplain;
+            console.log(document.getElementById("gender").checked);
+            if (document.getElementById("gender").checked) {
+              switch(prediction[0].className){
+                case "동네형":
+                    resultTitle = "한손에 철가방들고 배달 잘하는 동네 형"
+                    resultExplain = "중국집 배달부들이 사용하는 가방처럼 생긴 배달용 컨테이너. 이름은 철가방이지만 주로 양철 또는 함석판(주석 도금을 한 얇은 철판)이나 알루미늄으로 만든다. 힘을 잘 받도록 어느 정도의 내구성을 확보하면서도 무게는 무겁지 않게 해야 하기 때문이다. 철판과 알루미늄을 조합해 만들기도 한다. 일단 힘 안 받는 부위인 뚜껑은 다 알루미늄이다.철가방이 보편화되기 전에는 나무가방을 들고 배달을 갔으며 이 철가방이 바로 그 무게를 줄여준 일등공신이라고 할 수 있다."
+                    break;
+                case "시골":
+                    resultTitle = "시골 일등신랑감"
+                    resultExplain = "푸근한 인상의 당신은 시골에서 인기많은 일등신랑감입니다. 당장 귀농을 시작하세요!!"
+                    break;
+                case "철학":
+                    resultTitle = "잘생긴 바리스타"
+                    resultExplain = "시원한 아메리카노 한잔이요~"
+                    break;
+                case "사기꾼":
+                    resultTitle = "사기꾼"
+                    resultExplain = "당신은 사기꾼상 입니다. 꼬리가 길면 잡힙니다!!"
+                    break;
+                case "한국전력":
+                    resultTitle = "한국전력 직원"
+                    resultExplain = "당신은 한전 직원상 입니다."
+                    break;
+                case "방범대":
+                    resultTitle = "자율 방범대"
+                    resultExplain = "지역주민들이 자율적으로 모여서 범죄예방 활동을 목적으로 봉사하는 단체이다. 현재 전국에 있는 자율방범대원수는 2019년 12월말 경찰청 통계 기준으로 10만 2510명이라고 한다. 경찰 인력과 비슷한 수준"
+                    break;
+                case "빚쟁이":
+                    resultTitle = "사업하다가 실패해서 빚 많아진형"
+                    resultExplain = "(빚 + 쟁이) 원래는 남에게 돈을 빌려 준 사람을 낮잡아 이르는 말이었으나, 시간이 지나면서 어째 반대로 돈을 꿔간 채무자를 낮잡아 이르는 말로도 쓰이더니 지금은 전자보다 후자의 경우를 나타낼 때 더 많이 쓰이는 단어. 이 위키에 실려있는 동음반의어의 예이나, 엄밀히 따지자면 동음이의어가 아니라 다의어에 해당된다."
+                    break;
+                case "갈비":
+                    resultTitle = "포천이동갈비 사장님"
+                    resultExplain = "푸근한 인상의 당신은 자영업자 사장님상 입니다."
+                    break;
+                case "게임":
+                    resultTitle = "프로게이머"
+                    resultExplain = "비디오 게임의 경기를 하는 것을 직업으로 하는 사람. 즉 비디오 게임에서 다른 게이머(들)과 경쟁하며 리그나 토너먼트 등의 시합 경기에서 벌어들인 상금 및 소속팀에서 지급받는 급여를 소득으로 생활하는 사람만을 프로 게이머라 부른다. 넓은 의미로는 바둑, 체스 등의 프로 기사들도 엄연히 게임을 하는 것이지만, 일반적으로는 '프로게이머'라 하면 비디오 게임 종목으로 한정하기에 이들은 프로게이머로 보지 않는다."
+                    break;
+                case "말갈족":
+                    resultTitle = "말갈족 장군"
+                    resultExplain = "고대에 만주 동부 지역과 연해주 일부, 한반도 북부 일대에 거주했던, 계통상 현재 만주족으로 계보가 이어지는 퉁구스 계통으로 추정되는, 어로와 수렵채집, 유목 생활을 한 종족이다.순수한 유목민족은 아니고, 말갈이라 불렸을 때까지는 유목(혹은 반유목)도 했으며, 여진이라 불릴 때에는 삼림 수렵, 목축, 유목, 농경 등, 다양한 방식으로 삶을 영위했다."
+                    break;
+                default:
+                    resultTitle = "알수없음"
+              }
+            }else{
+              switch(prediction[0].className){
+                case "아나운서":
+                    resultTitle = "아나운서 지망생"
+                    resultExplain = "도도하고 청순한 당신은 아나운서에 적합합니다."
+                    break;
+                case "경리":
+                    resultTitle = "인기짱 에이스 경리 아가씨"
+                    resultExplain = "발랄하고 섹시한 당신은 성격또한 좋아서 인기가 많을 스타일 입니다. 지인들하고 사이가 좋으며 대쉬를 많이 받을 성격입니다."
+                    break;
+                case "학생":
+                    resultTitle = "앞자리에 앉아서 선생님 말씀에 호응잘해주는 학생"
+                    resultExplain = "항상 앞자리에 앉아서 수업을 듣고 모범생답게 생활하는 스타일 입니다."
+                    break;
+                case "알바":
+                    resultTitle = "좀 예쁜 동네 PC방 알바"
+                    resultExplain = "동네에서 이쁘다고 소리좀 들어본 당신은 어떤 일이든 인기가 많으며 남자의 대쉬가 끊이질 않습니다."
+                    break;
+                case "롯데월드":
+                    resultTitle = "롯데월드 검표원"
+                    resultExplain = "롯데월드 놀러가서 볼 것 같은 당신은 인상이 좋으며 어떤 일이든 긍정적이게 해낼 성격 입니다."
+                    break;
+                case "목사":
+                    resultTitle = "목사님 딸"
+                    resultExplain = "아멘"
+                    break;
+                case "미용실":
+                    resultTitle = "미용실 헤어 디자이너"
+                    resultExplain = "머리 이쁘게 해주세요~"
+                    break;
+                case "상사":
+                    resultTitle = "여직원들에게 뒷다마 존나까이는 직장상사"
+                    resultExplain = "첫인상이 기가 쌔보이고 무서울것 같은 당신은, 속은 여리고 친절한 성격입니다."
+                    break;
+                default:
+                    resultTitle = "알수없음"
+              }
+          }
+          var title = "<div class='"+prediction[0].className + "-animal-title'>" + resultTitle + "</div>"
+          var explain = "<div class='animal-explain pt-5'>" + resultExplain + "</div>"
+          $('.result-message').html(title + explain );
+          // for (let i = 0; i < maxPredictions; i++) {
+          //     const classPrediction =
+          //         prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+          //     labelContainer.childNodes[i].innerHTML = classPrediction;
+          // }
+      }
+    </script>
+
+</body>
+
+<!-- Copyright (c) 2020 by Aaron Vanston (https://codepen.io/aaronvanston/pen/yNYOXR)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
+
+</html>
