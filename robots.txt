@@ -1,2 +1,2 @@
-User-agent: *Allow:/
-Sitemap: https://junfree.ga/sitemap.xml
+User-agent: *
+Allow:/
